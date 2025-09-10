@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int buscaSequencial(int n, int vetor[n], int chave, int posicoes[n]){
+    int aparicoes = 0;
+    for(int i = 0; i<n; i++){
+        if(vetor[i] == chave){
+            posicoes[aparicoes] = i;
+            aparicoes++;
+        }
+    }
+    posicoes[aparicoes] = -1;
+    return aparicoes;
+}
+int buscaBinaria(int n, int vet[n], int chave, int posicoes[n]){
+    int a = 0;
+    int b = n-1;
+    int meio;
+    int repeticoes = 0;
+    while(a <= b){
+        meio = (a+b)/2;
+        if(vet[meio] == chave){
+            posicoes[repeticoes] = meio;
+            repeticoes++;
+
+            int j = meio-1;
+            while(vet[j] == chave){
+                posicoes[repeticoes] = j;
+                repeticoes++;
+                j -= 1;
+            }
+            
+            int i = meio+1;
+            while(vet[i] == chave){
+                posicoes[repeticoes] = i;
+                repeticoes++;
+                i++;
+            }
+            posicoes[repeticoes] = -1;
+            return repeticoes;
+        }
+        if(vet[meio] < chave){
+            a = meio+1;
+        }
+        if(vet[meio] > chave){
+            b = meio-1;
+        }
+    }
+    posicoes[repeticoes] = -1;
+    return repeticoes;
+
+}
+int main(){
+    int n;
+    int chave;
+    scanf("%d", &n);
+    int vet[n];
+    int posicoes[n];
+    for(int j = 0; j<n; j++){
+        scanf("%d", &vet[j]);
+    }
+    scanf("%d", &chave);
+    int resposta = buscaBinaria(n, vet, chave, posicoes);
+    printf("%d\n", resposta);
+    int indice = 0;
+    while(posicoes[indice] != -1){
+        printf("%d ", posicoes[indice]);
+        indice++;
+    }
+    return 0;
+}
